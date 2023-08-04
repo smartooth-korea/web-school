@@ -338,7 +338,7 @@ function onSelect(){ // 날짜 선택
 	
 	$.ajax({
 		type : 'POST',
-		url : '/web/statistics/general/ajaxDiagnosis',
+		url : '/web/statistics/ajaxDiagnosis',
 		data:JSON.stringify ({
 			"userId" : userId
 			,"userName" : userName

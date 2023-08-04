@@ -3,7 +3,7 @@
 #스마투스 관리자 웹
 spring:
     profiles:
-        active: web-school
+        active: webSchool
 
     #datasource (mariaDB)
     datasource:
