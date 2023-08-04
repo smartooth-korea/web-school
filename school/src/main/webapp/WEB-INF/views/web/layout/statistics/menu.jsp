@@ -11,7 +11,7 @@ function logout(){
 }
 </script>
 <div class="menu">
-	<div id="diagnosis_data_btn" class="menu_btn" onclick="location.href='/web/statistics/diagnosis'">진단 결과지</div>
+	<div id="diagnosis_data_btn" class="menu_btn" onclick="location.href='/web/statistics/general/diagnosis'">진단 결과지</div>
 	<div id="diagnosis_graph_btn" class="menu_btn"  onclick="location.href='/web/statistics/graph'">구강관리에 따른 원아 순위</div>
 <!-- 	<div id="logout" onclick="location.href='/web/statistics/logout.do'"> -->
 	<div id="logout" onclick=logout();>

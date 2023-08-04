@@ -11,7 +11,7 @@
 <!-- <link rel="stylesheet" href="/css/login/login.css"> -->
 <link rel="stylesheet" href="/css/common/layout.css">
 <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
-<title>Smartooth Mornitoring :: Login</title>
+<title>Smartooth 진단지 모니터링 페이지 :: 로그인</title>
 <style type="text/css">
 @charset "UTF-8";
 @font-face {
@@ -112,12 +112,12 @@
 	}
 	
 	.search_bar::placeholder{
-		color: #BDBDBD;
+		color: #333333;
 	}
 
 	.input-form::placeholder{
 		text-align: left;
-		color: #BDBDBD;
+		color: #A2A2A2;
 	}
 	
 	input#userId{
@@ -192,24 +192,24 @@
 				<img id="logo_img" src="/imgs/login/bg_login.jpg" alt="㈜스마투스코리아 로고">
 			</div>
 			<div class="commonHeight60"></div>
-				<h1>Smartooth Premium</h1>
-				<h3>Dental monitoring System</h3>
+				<h1>유치원 서비스</h1>
+				<h3>치아 모니터링 시스템</h3>
 			<div class="commonHeight40"></div>
 				<div class="form-group">
 					<i class="fas fa-search"></i>
-					<input type="text" class="search_bar" placeholder="the name of the Organization" id="schoolName" name="schoolName" >
+					<input type="text" class="search_bar" placeholder="유치원명" id="schoolName" name="schoolName" >
 				</div>			
 			<div class="commonHeight30"></div>
 				<div class="form-group">
-					<input type="text" class="input-form" placeholder="ID" id="userId" name="userId" >
+					<input type="text" class="input-form" placeholder="아이디" id="userId" name="userId" >
 				</div>
 			<div class="commonHeight20"></div>
 				<div class="form-group">
-					<input type="password" class="input-form" placeholder="Password" id="userPwd" name="userPwd" >
+					<input type="password" class="input-form" placeholder="비밀번호" id="userPwd" name="userPwd" >
 				</div>
 			<div class="commonHeight40"></div>
 				<div class="form-group">
-					<input type="button" id="login_btn" style="font-weight: bold;" value="LOGIN" onclick="opSubmit();" class="btn btn-primary form-control" value="LOGIN">
+					<input type="button" id="login_btn" style="font-weight: bold;" value="LOGIN" onclick="opSubmit();" class="btn btn-primary form-control" value="로그인">
 				</div>
 			<input type="hidden" id="schoolCode" name="schoolCode" value="">
 			<input type="hidden" id="urlType" name="urlType" value="${urlType}"/>
@@ -219,11 +219,14 @@
 <!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> -->
 <script type="text/javascript">
 
+	var selectedSchoolCode = "";
+
 	$(document).ready(function() {
 		
 		var updatePwd = "${updatePwd}";
+		// 세션이 끊겼을 때 메시지
 		if (updatePwd == "Y") {
-			alert("Password has been changed.");
+			alert("비밀번호가 변경되었습니다.");
 		}
 		$("#userId").focus();
 		
@@ -233,17 +236,17 @@
 	function opSubmit() {
 		
 		if ($("#userId").val() == "") {
-			alert("Please, enter your ID.");
+			alert("아이디를 입력해주세요.");
 			$("#userId").focus();
 			return false;
 		}
 		if ($("#userPwd").val() == "") {
-			alert("Please, enter your Password.");
+			alert("비밀번호를 입력해주세요");
 			$("#userPwd").focus();
 			return false;
 		}
 		if ($("#schoolName").val() == "") {
-			alert("Please, Select your orgarnization.");
+			alert("유치원을 선택해주세요");
 			$("#schoolName").focus();
 			return false;
 		}
@@ -283,7 +286,7 @@
 		             );    //response
 		         }
 		         ,error : function(){ //실패
-		             alert("Please, Contact Administrator\nE-mail: smartooth@smartooth.co");
+		             alert("관리자에게 문의해주세요.");
 		         }
 		         
 		     });
