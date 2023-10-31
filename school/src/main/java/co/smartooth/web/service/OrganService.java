@@ -9,7 +9,9 @@ import co.smartooth.web.vo.OrganVO;
 
 /**
  * 작성자 : 정주현 
- * 작성일 : 2022. 11. 08
+ * 작성일 : 2022. 10. 14
+ * 수정일 : 2023. 08. 31
+ * 서버분리 : 2023. 08. 01
  */
 public interface OrganService {
 	
@@ -36,6 +38,12 @@ public interface OrganService {
 
 	// 기관 치아 측정일 목록 조회 (기관코드)
 	public List<HashMap<String, Object>> selectOrganMeasureDtList(@Param("schoolCode") String schoolCode) throws Exception;
+	
+	
+	// 부서 이름 조회
+	public String selectDepartmentNm(@Param("userId") String userId) throws Exception;
+	
+	
 	
 	
 //	// 치과 병원 실시간 검색

@@ -8,7 +8,7 @@ public class MailAuthVO {
 	private String authKey;
 	// 메일 인증 여부 (Y,N)
 	private String authStatus;
-	// 자녀 회원 아이디
+	// 피측정자 회원 아이디
 	private String childId;
 	// 메일 인증 번호 (암호화)
 	private String encAuthKey;
@@ -34,7 +34,12 @@ public class MailAuthVO {
 	public void setAuthStatus(String authStatus) {
 		this.authStatus = authStatus;
 	}
-	
+	public String getChildId() {
+		return childId;
+	}
+	public void setChildId(String childId) {
+		this.childId = childId;
+	}
 	public String getEncAuthKey() {
 		return encAuthKey;
 	}

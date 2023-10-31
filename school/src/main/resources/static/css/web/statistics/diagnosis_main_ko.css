@@ -20,15 +20,17 @@ div{
 }
 
 .row{
-	margin-top: 20px;	
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .container {
-    min-width: 375px;
-    max-width: 375px;
-    margin-left: auto;
-    margin-right: auto;
-	width: 100%;
+	display:flex;
+	justify-content: center;
+	min-width: 780px;
+    max-width: 780px;
+    width: 100%;
 }
 
 .input-form {
@@ -454,6 +456,7 @@ position: absolute;
 .cavityValue-normal-title {
   	width: 113px;
     height: 25px;
+    font-size: 13.5px;
     text-align: center;
     color: #68AE00;
 }

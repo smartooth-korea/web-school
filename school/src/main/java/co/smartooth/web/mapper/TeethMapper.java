@@ -48,16 +48,14 @@ public interface TeethMapper {
 	
 	// 악화 지수 점수 업데이트 
 	public void updateUserDeteriorateScore(TeethMeasureVO webTeethMeasureVO) throws Exception;
-
-	
-
-	
-//	// 피측정자 치아 측정 값 조회 (기간)
-//	public List<TeethMeasureVO> selectUserTeethMeasureValue(TeethMeasureVO webTeethMeasureVO) throws Exception;
 	
 	
-//	// 진단 제목 조회
-//	public String selectDiagTitle(String diagCd) throws Exception;	
-
-
+	// 진단 내용 업데이트 여부
+	public void updateDiagDescriptFlag(@Param("userId") String userId, @Param("measureDt") String measureDt) throws Exception;
+	
+	
+	// 비고 (memo) 업데이트
+	public void updateMemo(@Param("userId") String userId, @Param("measureDt") String measureDt, @Param("memo") String memo) throws Exception;
+	
+	
 }

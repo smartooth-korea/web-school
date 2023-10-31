@@ -26,5 +26,9 @@ public interface DiagnosisService {
 	public String selectDiagTitle(@Param("diagCd") String diagCd, @Param("teethType") String teethType) throws Exception;
 	
 	
+	// 진단 키워드 별 태그 변환
+	public String changeSalesKewordHtmlTag(@Param("keyword") String keyword) throws Exception;
+	
+	
 	
 }

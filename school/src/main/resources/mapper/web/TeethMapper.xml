@@ -31,27 +31,28 @@
     
     
      <!-- 피측정자 치아 개별 측정 값 UPDATE-->
-    <update id="updateUserCavityCntByMeasureDt" parameterType="co.smartooth.web.vo.ToothMeasureVO">
+    <update id="updateUserCavityCntByMeasureDt" parameterType="co.smartooth.web.vo.TeethMeasureVO">
 		
 		UPDATE ST_TEETH_MEASURE
 		<trim prefix="SET" suffixOverrides=",">
-		CAVITY_NORMAL  =  #{cavityNormal},
+			CAVITY_NORMAL  =  #{cavityNormal},
 			CAVITY_CAUTION  =  #{cavityCaution},
 			CAVITY_DANGER  =  #{cavityDanger},
 			PERM_CAVITY_NORMAL = #{permCavityNormal},
 			PERM_CAVITY_CAUTION = #{permCavityCaution},
 			PERM_CAVITY_DANGER = #{permCavityDanger},
+			DETERIORATE_SCORE = #{deteriorateScore},
 			<if test="diagCd != null and diagCd != '' ">
-				 DIAG_CD = #{diagCd},
+			 DIAG_CD = #{diagCd},
 	   		</if>	
 	   		<if test="diagList != null and diagList != '' ">
-				 DIAG_LIST = #{diagList},
+			 DIAG_LIST = #{diagList},
 	   		</if>	
 			<if test="diagTitle != null and diagTitle != '' ">
-				 DIAG_TITLE = #{diagTitle},
+			 DIAG_TITLE = #{diagTitle},
 	   		</if>	
 			<if test="diagDescript != null and diagDescript != '' ">
-				 DIAG_DESCRIPT = #{diagDescript},
+			 DIAG_DESCRIPT = #{diagDescript},
 	   		</if>	
    		</trim>
 		WHERE 1=1
@@ -67,20 +68,21 @@
     <!-- 피측정자 치아 측정 값 측정일 기준으로 조회 -->
 	<select id="selectUserMeasureValue" parameterType="String" resultType="co.smartooth.web.vo.TeethMeasureVO">
 		
-	   SELECT   USER_ID
-	        	,T01, T02, T03, T04, T05, T06, T07, T08, T09, T10, T11, T12, T13, T14, T15, T16
-				,T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32
-	            ,T33 ,T34 ,T35 ,T36 ,T37 ,T38 ,T39 ,T40 ,T41, T42
-	            ,T43 ,T44 ,T45 ,T46 ,T47 ,T48 ,T49 ,T50 ,T51 ,T52, T53, T54, T55, T56  
-	            ,DATE_FORMAT(MEASURE_DT, '%Y-%m-%d')   AS MEASURE_DT
-	            ,CAVITY_NORMAL
-	            ,CAVITY_CAUTION
-	            ,CAVITY_DANGER
-	            ,DIAG_CD
-				,MEMO
-				,DIAG_TITLE
-				,DIAG_DESCRIPT
-				,DIAG_DESCRIPT_FL
+	   SELECT   
+	   		USER_ID
+        	,T01, T02, T03, T04, T05, T06, T07, T08, T09, T10, T11, T12, T13, T14, T15, T16
+			,T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32
+            ,T33 ,T34 ,T35 ,T36 ,T37 ,T38 ,T39 ,T40 ,T41, T42
+            ,T43 ,T44 ,T45 ,T46 ,T47 ,T48 ,T49 ,T50 ,T51 ,T52, T53, T54, T55, T56  
+            ,DATE_FORMAT(MEASURE_DT, '%Y-%m-%d')   AS MEASURE_DT
+            ,CAVITY_NORMAL
+            ,CAVITY_CAUTION
+            ,CAVITY_DANGER
+            ,DIAG_CD
+			,MEMO
+			,DIAG_TITLE
+			,DIAG_DESCRIPT
+			,DIAG_DESCRIPT_FL
 	   FROM     ST_TEETH_MEASURE
 	   WHERE    USER_ID = #{userId}
 	   AND      DATE_FORMAT(MEASURE_DT, '%Y-%m-%d') = #{measureDt}
@@ -94,10 +96,11 @@
     <!-- 충치 단계별 수치 조회 -->
 	<select id="selectCavityLevel" resultType="hashmap">
 
-		SELECT CAVITY_NORMAL
-				   ,CAVITY_CAUTION
-				   ,CAVITY_DANGER
-				   ,DATE_FORMAT(CAVITY_SET_DT, '%Y-%m-%d') AS CAVITY_SET_DT
+		SELECT 
+			CAVITY_NORMAL
+			,CAVITY_CAUTION
+			,CAVITY_DANGER
+			,DATE_FORMAT(CAVITY_SET_DT, '%Y-%m-%d') AS CAVITY_SET_DT
 		FROM ST_CAVITY_LEVEL
 		
 	</select>
@@ -110,8 +113,7 @@
 	<update id="updateDiagDescript" parameterType="String">
 	
 		UPDATE ST_TEETH_MEASURE
-		SET  
-			   DIAG_DESCRIPT = #{diagDescript}
+		SET DIAG_DESCRIPT = #{diagDescript}
 		WHERE 1=1
 		AND USER_ID = #{userId}
 		AND DATE_FORMAT(MEASURE_DT, '%Y-%m-%d') = #{measureDt}
@@ -143,25 +145,25 @@
 	<select id="selectUserMeasureStatisticsList" parameterType="String" resultType="Hashmap">
 	
 		SELECT DISTINCT
-			SU.USER_NAME																			AS USER_NAME
-			,SU.USER_ID																				AS USER_ID
-			,SSI.SCHOOL_NAME																		AS SCHOOL_NAME
-			,STI.CLASS_NAME																		AS CLASS_NAME
-			,TIMESTAMPDIFF(MONTH, SU.USER_BIRTHDAY, SYSDATE())+1 				AS MONTH_COUNT
-			,DATE_FORMAT(SU.USER_BIRTHDAY, '%Y-%m-%d') 							AS USER_BIRTHDAY 
+			CAST(AES_DECRYPT(UNHEX(FROM_BASE64(SU.USER_NAME)), '${securityKey}') AS CHAR)																				AS USER_NAME
+			,SU.USER_ID																																													AS USER_ID
+			,SSI.SCHOOL_NAME																																											AS SCHOOL_NAME
+			,STI.CLASS_NAME																																											AS CLASS_NAME
+			,TIMESTAMPDIFF(MONTH, CAST(AES_DECRYPT(UNHEX(FROM_BASE64(SU.USER_BIRTHDAY)), '${securityKey}') AS CHAR), SYSDATE())+1 				AS MONTH_COUNT
+			,CAST(AES_DECRYPT(UNHEX(FROM_BASE64(SU.USER_BIRTHDAY)), '${securityKey}') AS CHAR)																		AS USER_BIRTHDAY
 			,CASE SU.USER_SEX WHEN 'M' THEN '남' 
 							  WHEN 'F' THEN '여'
-							  ELSE '' END 																AS USER_SEX
-			,SU.USER_TEL_NO AS USER_TEL_NO
+							  ELSE '' END 																																									AS USER_SEX
+			,CAST(AES_DECRYPT(UNHEX(FROM_BASE64(SU.USER_TEL_NO)), '${securityKey}') AS CHAR)																			AS USER_TEL_NO
 			,DATE_FORMAT(MEASURE_DT, '%Y-%m-%d') AS MEASURE_DT
-			,STM.CAVITY_NORMAL																	AS CAVITY_NORMAL
-			,STM.CAVITY_CAUTION																	AS CAVITY_CAUTION
-			,STM.CAVITY_DANGER																	AS CAVITY_DANGER
-			,STM.PERM_CAVITY_NORMAL															AS PERM_CAVITY_NORMAL
-			,STM.PERM_CAVITY_CAUTION														AS PERM_CAVITY_CAUTION
-			,STM.PERM_CAVITY_DANGER															AS PERM_CAVITY_DANGER
-			,STM.DIAG_CD                                                                     		AS DIAG_CD
-			,STM.DETERIORATE_SCORE															AS DETERIORATE_SCORE
+			,STM.CAVITY_NORMAL																																										AS CAVITY_NORMAL
+			,STM.CAVITY_CAUTION																																										AS CAVITY_CAUTION
+			,STM.CAVITY_DANGER																																										AS CAVITY_DANGER
+			,STM.PERM_CAVITY_NORMAL																																								AS PERM_CAVITY_NORMAL
+			,STM.PERM_CAVITY_CAUTION																																							AS PERM_CAVITY_CAUTION
+			,STM.PERM_CAVITY_DANGER																																								AS PERM_CAVITY_DANGER
+			,STM.DIAG_CD                                                                     																											AS DIAG_CD
+			,STM.DETERIORATE_SCORE																																								AS DETERIORATE_SCORE
 		FROM ST_TEETH_MEASURE STM
 		LEFT OUTER JOIN ST_USER SU
 		ON STM.USER_ID = SU.USER_ID
@@ -197,35 +199,36 @@
 	
 	
 	
+	<!-- 진단 결과지 진단 내용 업데이트 여부-->
+	<update id="updateDiagDescriptFlag" parameterType="String">
 	
-<!--    	피측정자의 치아 측정 값 조회 (기간)  -->
-<!--     <select id="selectUserTeethMeasureValue" parameterType="co.smartooth.web.vo.TeethMeasureVO" resultType="co.smartooth.web.vo.TeethMeasureVO"> -->
-<!-- 		SELECT  -->
-<!-- 			USER_NO, USER_ID  -->
-<!-- 			,T01, T02, T03, T04, T05, T06, T07, T08, T09, T10, T11, T12, T13, T14, T15, T16 -->
-<!-- 			,T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32 -->
-<!-- 			,DATE_FORMAT(MEASURE_DT, '%Y-%m-%d') AS MEASURE_DT -->
-<!-- 		 FROM ST_TEETH_MEASURE -->
-<!-- 		WHERE 1=1  -->
-<!-- 		AND USER_ID = #{userId} -->
-<!-- 	<if test="userNo != null and userNo != '' "> -->
-<!-- 		AND USER_NO = #{userNo} -->
-<!-- 	</if> -->
-<!-- 		AND DATE_FORMAT(MEASURE_DT, '%Y-%m-%d') BETWEEN #{startDt} AND #{endDt} -->
-<!-- 		ORDER BY MEASURE_DT DESC -->
-<!--     </select > -->
-
-
-
-
-
-<!-- 	진단 제목 -->
-<!-- 	<select id="selectDiagTitle" resultType="String"> -->
-<!-- 		SELECT DIAG_TITLE -->
-<!-- 		FROM ST_DIAG_TITLE -->
-<!-- 		WHERE 1=1 -->
-<!-- 		AND DIAG_CD = #{diagCd} -->
-<!-- 	</select> -->
+		UPDATE ST_TEETH_MEASURE
+		SET  
+			   DIAG_DESCRIPT_FL = 'Y'
+		WHERE 1=1
+		AND USER_ID = #{userId}
+		AND DATE_FORMAT(MEASURE_DT, '%Y-%m-%d') = #{measureDt}
+	
+	</update>
+	
+	
+	
+	
+	
+	<!-- 진단 결과지 메모 업데이트 -->
+	<update id="updateMemo" parameterType="String">
+	
+		UPDATE ST_TEETH_MEASURE
+		SET  
+			   MEMO = #{memo}
+		WHERE 1=1
+		AND USER_ID = #{userId}
+		AND DATE_FORMAT(MEASURE_DT, '%Y-%m-%d') = #{measureDt}
+	
+	</update>
+	
+	
+	
 	
 	
 </mapper>

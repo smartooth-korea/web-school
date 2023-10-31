@@ -4,6 +4,8 @@
 
 
 
+
+
     <!-- 회원 : 로그인 완료 후 로그인 LOG를 기록-->
 	<insert id="insertUserLoginHistory" parameterType="co.smartooth.web.vo.AuthVO">
 		INSERT INTO ST_USER_LOGIN_HISTORY
@@ -27,6 +29,9 @@
 	</insert>
     
 
+
+
+
     <!-- 회원 접속일 UPDATE -->
     <update id="updateLoginDt" parameterType="co.smartooth.web.vo.AuthVO">
 		UPDATE ST_USER
@@ -36,6 +41,7 @@
     </update>
 
     
+
 
     
 </mapper>

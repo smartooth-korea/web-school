@@ -87,6 +87,22 @@ public class TeethServiceImpl implements TeethService{
 	
 	
 	
+	// 진단 내용 업데이트 여부
+	@Override
+	public void updateDiagDescriptFlag(@Param("userId") String userId, @Param("measureDt") String measureDt) throws Exception {
+		teethMapper.updateDiagDescriptFlag(userId, measureDt);
+	}
+	
+	
+	
+	// 메모 업데이트 
+	@Override
+	public void updateMemo(@Param("userId") String userId, @Param("measureDt") String measureDt, @Param("memo") String memo) throws Exception{
+		teethMapper.updateMemo(userId, measureDt ,memo);
+	}
+	
+	
+	
 //	// 피측정자의 치아 측정 값 조회 (기간)
 //	@Override
 //	public List<TeethMeasureVO> selectUserTeethMeasureValue(TeethMeasureVO webTeethMeasureVO) throws Exception {

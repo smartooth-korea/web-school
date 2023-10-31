@@ -3,6 +3,30 @@
 <mapper namespace="co.smartooth.web.mapper.LocationMapper">
 
 
+
+
+
+	<!-- 국가 코드 및 정보 조회 -->
+    <select id="selectNationalInfo" parameterType="String" resultType="co.smartooth.web.vo.LocationVO">
+		
+		SELECT 
+			 ISO_ALPHA2
+			,ISO_ALPHA3
+			,ISO_NUMERIC
+			,CONTINENT_CODE
+			,NATIONAL_NAME_KOR
+			,NATIONAL_NAME_ENG
+			,GMT
+		FROM ST_NATIONAL_INFO
+		WHERE 1=1
+		AND ISO_ALPHA2 = #{isoAlpha2}
+				
+    </select>
+    
+    
+    
+    
+
 <!-- 위치(loacation) 정보 조회 -->
 <!--     <select id="selectLocationInfo" parameterType="String" resultType="co.smartooth.web.vo.LocationVO"> -->
 		
@@ -85,21 +109,5 @@
 
 
 
-	<!-- 국가 코드 및 정보 조회 -->
-    <select id="selectNationalInfo" parameterType="String" resultType="co.smartooth.web.vo.LocationVO">
-		
-		SELECT 
-			 ISO_ALPHA2
-			,ISO_ALPHA3
-			,ISO_NUMERIC
-			,CONTINENT_CODE
-			,NATIONAL_NAME_KOR
-			,NATIONAL_NAME_ENG
-			,GMT
-		FROM ST_NATIONAL_INFO
-		WHERE 1=1
-		AND ISO_ALPHA2 = #{isoAlpha2}
-				
-    </select>
 
 </mapper>

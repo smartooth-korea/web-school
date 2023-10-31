@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * 작성자 : 정주현 
  * 작성일 : 2022. 11. 03
- * 수정일 : 2023-07-19
+ * 수정일 : 2023. 07. 19
  */
 public class UserVO implements Serializable {
 	
@@ -39,11 +39,11 @@ public class UserVO implements Serializable {
 	private String eupmyeondongNm;
 	private String addrDetail;
 	private String organCd;
+
 	// 이메일 인증 관련
 	private String authEmail;
 	private String authStatus;
 	private String authKey;
-
 	
 	// ST_STUDENT_USER_DETAIL :: STUDENT
 	private String teacherId;
@@ -53,22 +53,17 @@ public class UserVO implements Serializable {
 	private String teethType;
 	private String agreYn;
 	
-	
 	// ST_TEACHER_USER_DETAIL :: TEACHER
 	private String schoolCode;
 	private String classDepth;
-
 	
 	// ST_PARENT_USER_DETAIL :: PARENT
 	private String childId;
 	
-	
 	// 기타
 	private String userEmailYn;
 	private String userAuthToken;
-	
-	
-	
+
 	
 	
 	public int getSeqNo() {

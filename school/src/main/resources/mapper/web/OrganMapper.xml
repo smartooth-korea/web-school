@@ -3,6 +3,9 @@
 <mapper namespace="co.smartooth.web.mapper.OrganMapper">
 
 
+
+
+
 	<!-- 실시간 기관 조회 -->
     <select id="ajaxSelectOrganList" parameterType="String" resultType="map">
 		SELECT 
@@ -119,6 +122,23 @@
 		ORDER BY DATE_FORMAT(STM.MEASURE_DT, '%Y-%m-%d') DESC
 		
 	</select>
+    
+    
+    
+    
+    
+	<!-- 부서 이름 조회 -->
+    <select id="selectDepartmentNm" parameterType="String" resultType="String">
+
+		SELECT 
+	   		CLASS_NAME
+	   	FROM ST_STUDENT_USER_DETAIL STUD
+	   	LEFT OUTER JOIN ST_CLASS_INFO SCI
+	   	ON STUD.TEACHER_ID = SCI.CLASS_CODE
+	   	WHERE 1=1
+	   	AND STUD.USER_ID = #{userId}
+
+    </select>
     
     
     

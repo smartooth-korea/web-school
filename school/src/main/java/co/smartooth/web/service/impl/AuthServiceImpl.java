@@ -27,16 +27,16 @@ public class AuthServiceImpl implements AuthService{
 	
 	// 회원 아이디와 비밀번호로 존재 여부 확인 :: true = 1, false = 0
 	@Override
-	public int loginChkByIdPwd(AuthVO webAuthVO) throws Exception {
-		return authMapper.loginChkByIdPwd(webAuthVO);
+	public int loginChkByIdPwd(@Param("userId") String userId, @Param("userPwd") String userPwd) throws Exception{
+		return authMapper.loginChkByIdPwd(userId, userPwd);
 	}
 
 	
 	
 	// 회원 아이디가 존재하는지 여부 확인 :: true = 1, false = 0
 	@Override
-	public int isIdExist(AuthVO webAuthVO) throws Exception {
-		return authMapper.isIdExist(webAuthVO);
+	public int isIdExist(@Param("userId") String userId) throws Exception {
+		return authMapper.isIdExist(userId);
 	}
 
 	

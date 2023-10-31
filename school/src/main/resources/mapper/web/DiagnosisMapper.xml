@@ -48,6 +48,21 @@
 		AND DIAG_CD = #{diagCd}
 		  
     </select>
+
+
+
+
+
+	<!-- 진단 키워드 별 태그 변환 -->
+    <select id="changeSalesKewordHtmlTag" parameterType="String" resultType="String">
+        
+		SELECT 
+			HTML_TAG
+		FROM ST_SALES_KEYWORD
+		WHERE 1=1
+		AND KEYWORD = #{keyword}
+		  
+    </select>
     
     
     

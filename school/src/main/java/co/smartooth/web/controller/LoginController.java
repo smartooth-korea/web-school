@@ -2,7 +2,6 @@ package co.smartooth.web.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import co.smartooth.web.service.AuthService;
 import co.smartooth.web.service.LogService;
 import co.smartooth.web.service.MailAuthService;
@@ -59,7 +57,7 @@ public class LoginController {
 
 	
 	/**
-	 * 기능 : 학부모 및 자녀 결과지 웹 로그인 화면
+	 * 기능 : 법정대리인 및 피측정자 결과지 웹 로그인 화면
 	 * 작성자 : 정주현 
 	 * 작성일 : 2022. 07. 15
 	 * 수정일 : 2023. 08. 03
@@ -78,7 +76,7 @@ public class LoginController {
 	
 	
 	/**
-	 * 기능 : 학부모 및 자녀 결과지 웹 로그인 화면
+	 * 기능 : 법정대리인 및 피측정자 결과지 웹 로그인 화면
 	 * 작성자 : 정주현 
 	 * 작성일 : 2022. 07. 15
 	 * 수정일 : 2023. 08. 03
@@ -120,7 +118,7 @@ public class LoginController {
 	
 	
 	/**
-	 * 기능   : 학부모 및 자녀용 - 진단 결과지 로그인
+	 * 기능   : 법정대리인 및 피측정자용 - 진단 결과지 로그인
 	 * 작성자 : 정주현 
 	 * 작성일 : 2022. 07. 07
 	 * 수정일 : 2023. 08. 03
@@ -159,33 +157,21 @@ public class LoginController {
 		UserVO userInfo = new UserVO(); 
 		
 		// 비밀번호 암호화 
-		AES256Util aes256Util = new AES256Util();
-		userPwd = aes256Util.aesEncode(userPwd);
+		//AES256Util aes256Util = new AES256Util();
+		//userPwd = aes256Util.aesEncode(userPwd);
 		
 		// 오늘 일자 계산
 		Date tmpDate = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
 		String sysDate = sdf.format(tmpDate);
 		
-		// 회원 정보 및 상세정보 조회
-		UserVO tmpWebUserVO = userService.selectUserInfo(userId);
-		userType = tmpWebUserVO.getUserType();
-		
-		// 로그인 VO
-		webAuthVO.setUserId(userId);
-		webAuthVO.setUserPwd(userPwd);
-		webAuthVO.setLoginDt(sysDate);
-		webAuthVO.setUserType(userType);
-		// 회원 VO
-		webUserVO.setUserId(userId);
-		webUserVO.setUserType(userType);
 		
 		try {
 			// 아이디 검증 ::: schoolCode를 검증해야함
-			loginChkByIdPwd = authService.loginChkByIdPwd(webAuthVO);
+			loginChkByIdPwd = authService.loginChkByIdPwd(userId, userPwd);
 			if(loginChkByIdPwd == 0){
 				// 0일 경우는 Database에 ID와 비밀번호가 틀린 것
-				isIdExist = authService.isIdExist(webAuthVO);
+				isIdExist = authService.isIdExist(userId);
 				if(isIdExist == 0) {
 					 // ID가 존재하지 않을 경우
 					model.addAttribute("msg", "등록 되어있지 않은 아이디입니다.");
@@ -197,6 +183,20 @@ public class LoginController {
 				return "/common/alertMessage";
 				
 			}else {
+				
+				// 회원 정보 및 상세정보 조회
+				UserVO tmpWebUserVO = userService.selectUserInfo(userId);
+				userType = tmpWebUserVO.getUserType();
+				
+				// 로그인 VO
+				webAuthVO.setUserId(userId);
+				webAuthVO.setUserPwd(userPwd);
+				webAuthVO.setLoginDt(sysDate);
+				webAuthVO.setUserType(userType);
+				// 회원 VO
+				webUserVO.setUserId(userId);
+				webUserVO.setUserType(userType);
+				
 				
 				if(userType.equals("PR")) {
 					// 법정대리인 아이디로 피측정자 아이디 조회
@@ -327,10 +327,10 @@ public class LoginController {
 		
 		try {
 			// 아이디 검증 ::: schoolCode를 검증해야함
-			loginChkByIdPwd = authService.loginChkByIdPwd(webAuthVO);
+			loginChkByIdPwd = authService.loginChkByIdPwd(userId, userPwd);
 			if(loginChkByIdPwd == 0){
 				// 0일 경우는 Database에 ID와 비밀번호가 틀린 것
-				isIdExist = authService.isIdExist(webAuthVO);
+				isIdExist = authService.isIdExist(userId);
 				if(isIdExist == 0) {
 					 // ID가 존재하지 않을 경우
 					model.addAttribute("msg", "등록 되어있지 않은 아이디입니다.");
@@ -395,7 +395,7 @@ public class LoginController {
 	
 	
 	/**
-	 * 기능   : 학부모 및 자녀용 - 진단 결과지 로그아웃
+	 * 기능   : 법정대리인 및 피측정자용 - 진단 결과지 로그아웃
 	 * 작성자 : 정주현
 	 * 작성일 : 2022. 07. 18
 	 * 수정일 : 2023. 08. 03

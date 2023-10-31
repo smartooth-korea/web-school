@@ -58,6 +58,10 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		.addResourceLocations("classpath:/static/")
 		.setCachePeriod(60*60*24);
 		
+		registry.addResourceHandler("/admin/school/statistics/**")
+		.addResourceLocations("classpath:/static/")
+          .setCachePeriod(60*60*24);
+		
 		registry.addResourceHandler("/test/**")
 		.addResourceLocations("classpath:/static/")
           .setCachePeriod(60*60*24);

@@ -201,10 +201,10 @@
 				</div>
 			</div>
 		</div>
-		</div>
 		<footer class="my-3 text-center text-small">
 			<p class="mb-1">Copyright &copy; Smartooth 2023</p>
 		</footer>
+		</div>
 	</div>
 </div>
 </body>

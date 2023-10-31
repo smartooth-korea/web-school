@@ -49,6 +49,14 @@ public class DiagnosisServiceImpl implements DiagnosisService {
 	}
 
 
+
+	// 진단 키워드 별 태그 변환
+	@Override
+	public String changeSalesKewordHtmlTag(@Param("keyword") String keyword) throws Exception {
+		return diagnosisMapper.changeSalesKewordHtmlTag(keyword);
+	}
+
+
 	
 	
 }

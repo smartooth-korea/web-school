@@ -39,7 +39,7 @@ public class OrganServiceImpl implements OrganService{
 	public OrganVO selectOrganInfo(@Param("schoolCode") String schoolCode) throws Exception {
 		return organMapper.selectOrganInfo(schoolCode);
 	}
-	
+
 	
 	
 	// 부서 목록 조회
@@ -71,6 +71,18 @@ public class OrganServiceImpl implements OrganService{
 	public List<HashMap<String, Object>> selectOrganMeasureDtList(@Param("schoolCode") String schoolCode) throws Exception {
 		return organMapper.selectOrganMeasureDtList(schoolCode);
 	}
+
+	
+	
+	// 부서 이름 조회
+	@Override
+	public String selectDepartmentNm(@Param("userId") String userId) throws Exception {
+		return organMapper.selectDepartmentNm(userId);
+	}
+	
+	
+	
+
 	
 	
 	
